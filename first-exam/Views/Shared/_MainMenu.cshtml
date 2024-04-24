@@ -1,0 +1,39 @@
+﻿        <div
+            data-collapse="small"
+            data-animation="default"
+            data-duration="400"
+            data-easing="ease"
+            data-easing2="ease"
+            role="banner"
+            class="nav-bar w-nav">
+            <div class="nav-container w-container">
+                <div class="logo-div">
+                    <a href="/" aria-current="page" class="nav-logo w-inline-block w--current"
+                        ><img src="~/images/peachy-20logo.svg" width="137" alt="" class="logo"
+                    /></a>
+                </div>
+                <nav role="navigation" class="nav-content w-nav-menu">
+                    <div class="nav-menu">
+
+
+                        <a href="@Url.Action("Features","Home")" class="nav-link w-nav-link">Features</a
+                        ><a href="@Url.Action("Pricing","Home")" class="nav-link w-nav-link">Pricing</a
+                        ><a href="@Url.Action("Integrations","Home")" class="nav-link w-nav-link">Integrations</a>
+                        
+
+                    </div>
+                    <div class="nav-cta-button-container">
+                        <a href="@Url.Action("Login","Home")" class="nav-link secondary w-nav-link">Sign in</a
+                        ><a href="@Url.Action("Register", "Home")" class="nav-link primary w-nav-link">Get started</a>
+                    </div>
+                </nav>
+                <div class="menu-button w-nav-button">
+                    <img
+                        src="images/grey-20hamburger-20icon.svg"
+                        loading="lazy"
+                        width="24"
+                        alt=""
+                        class="menu-icon" />
+                </div>
+            </div>
+        </div>

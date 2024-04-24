@@ -1,0 +1,608 @@
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@using System.Globalization
+
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContext
+@inject IOptions<RequestLocalizationOptions> locOptions
+@inject IViewLocalizer _lang
+
+
+<div class="wrapper">
+            <div class="section hero">
+                <div class="container hero-wrapper w-container">
+                    <div class="hero-text-box">
+                        <h1 class="heading large-h1">Better note-taking is now here.</h1>
+                        <div class="text-box _500px center-align">
+                            <p class="paragraph large">
+                                Peachy uses AI to bring your notes and writing to the next level for
+                                faster and smarter content.
+                            </p>
+                        </div>
+                        <div class="spacer _16"></div>
+                        <a href="@Url.Action("Register", "Home")" class="button w-button">Get started</a
+                        >
+                        
+                    </div>
+                    <img
+                        src="images/peachy-20dashboard.webp"
+                        srcset="
+                            images/peachy-20dashboard-p-500.webp   500w,
+                            images/peachy-20dashboard-p-800.webp   800w,
+                            images/peachy-20dashboard-p-1080.webp 1080w,
+                            images/peachy-20dashboard-p-1600.webp 1600w,
+                            images/peachy-20dashboard-p-2000.webp 2000w,
+                            images/peachy-20dashboard.webp        2036w
+                        "
+                        sizes="(max-width: 991px) 92vw, (max-width: 1279px) 90vw, 967px"
+                        width="967"
+                        alt=""
+                        class="hero-illustration" />
+                </div>
+            </div>
+            <div class="section light-orange">
+                <div class="container w-container">
+                    <div class="text-box center-align">
+                        <h2 class="heading h2">Everything you would expect.</h2>
+                        <div class="spacer _32"></div>
+                    </div>
+                    <div class="_3-grid">
+                        <div class="white-text-card">
+                            <img src="images/magicwand.svg" alt="" class="icon" />
+                            <h2 class="heading h4">Fast. Really fast</h2>
+                            <p>
+                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                                nisi ut aliquip ex ea commodo consequat.
+                            </p>
+                        </div>
+                        <div class="white-text-card">
+                            <img src="images/coins.svg" alt="" class="icon" />
+                            <h2 class="heading h4">More bang for buck</h2>
+                            <p>
+                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                                nisi ut aliquip ex ea commodo consequat.
+                            </p>
+                        </div>
+                        <div class="white-text-card">
+                            <img src="images/plugsconnected.svg" alt="" class="icon" />
+                            <h2 class="heading h4">Safe and secure</h2>
+                            <p>
+                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                                nisi ut aliquip ex ea commodo consequat.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section large">
+                <div class="container w-container">
+                    <div class="text-box _500px">
+                        <h2 class="heading h2">Make for whatever use case you need.</h2>
+                    </div>
+                    <div class="spacer _16"></div>
+                    <div
+                        data-duration-in="300"
+                        data-duration-out="100"
+                        data-current="Tab 1"
+                        data-easing="ease"
+                        class="horizontal-tabs w-tabs">
+                        <div class="tabs-text-boxes w-tab-menu">
+                            <a
+                                data-w-tab="Tab 1"
+                                data-w-id="82337e00-8b8e-ecbd-5533-9b2b07b2cc97"
+                                class="tab-text-box w-inline-block w-tab-link w--current"
+                                ><img
+                                    alt=""
+                                    src="images/black-20down-20arrow.svg"
+                                    class="tab-dropdown-icon" />
+                                <div class="tab-info-box">
+                                    <h3 class="heading h5">Meeting notes</h3>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                        do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua.
+                                    </p>
+                                </div></a
+                            ><a
+                                data-w-tab="Tab 2"
+                                data-w-id="82337e00-8b8e-ecbd-5533-9b2b07b2cca0"
+                                class="tab-text-box w-inline-block w-tab-link"
+                                ><div class="tab-info-box">
+                                    <h3 class="heading h5">Company hub</h3>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                        do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua.
+                                    </p>
+                                </div>
+                                <img
+                                    alt=""
+                                    src="images/black-20down-20arrow.svg"
+                                    class="tab-dropdown-icon" /></a
+                            ><a
+                                data-w-tab="Tab 3"
+                                data-w-id="1a919bf6-369c-11e4-9bdf-898aa73ef921"
+                                class="tab-text-box w-inline-block w-tab-link"
+                                ><div class="tab-info-box">
+                                    <h3 class="heading h5">Onboarding</h3>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                        do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua.
+                                    </p>
+                                </div>
+                                <img
+                                    alt=""
+                                    src="images/black-20down-20arrow.svg"
+                                    class="tab-dropdown-icon" /></a
+                            ><a
+                                data-w-tab="Tab 4"
+                                data-w-id="82337e00-8b8e-ecbd-5533-9b2b07b2cca9"
+                                class="tab-text-box w-inline-block w-tab-link"
+                                ><div class="tab-info-box">
+                                    <h3 class="heading h5">Process and lists</h3>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                        do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua.
+                                    </p>
+                                </div>
+                                <img
+                                    alt=""
+                                    src="images/black-20down-20arrow.svg"
+                                    class="tab-dropdown-icon"
+                            /></a>
+                        </div>
+                        <div class="tabs-images w-tab-content">
+                            <div data-w-tab="Tab 1" class="w-tab-pane w--tab-active">
+                                <img
+                                    width="967"
+                                    sizes="(max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 1279px) 47vw, 599.15625px"
+                                    alt=""
+                                    src="images/dashboard-20outline.png"
+                                    srcset="
+                                        images/dashboard-20outline-p-500.png   500w,
+                                        images/dashboard-20outline-p-800.png   800w,
+                                        images/dashboard-20outline-p-1080.png 1080w,
+                                        images/dashboard-20outline-p-1600.png 1600w,
+                                        images/dashboard-20outline-p-2000.png 2000w,
+                                        images/dashboard-20outline.png        2036w
+                                    "
+                                    class="dashboard-image" />
+                            </div>
+                            <div data-w-tab="Tab 2" class="w-tab-pane">
+                                <img
+                                    width="967"
+                                    sizes="(max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 1279px) 47vw, 599.15625px"
+                                    alt=""
+                                    src="images/dashboard-20outline.png"
+                                    srcset="
+                                        images/dashboard-20outline-p-500.png   500w,
+                                        images/dashboard-20outline-p-800.png   800w,
+                                        images/dashboard-20outline-p-1080.png 1080w,
+                                        images/dashboard-20outline-p-1600.png 1600w,
+                                        images/dashboard-20outline-p-2000.png 2000w,
+                                        images/dashboard-20outline.png        2036w
+                                    "
+                                    class="dashboard-image" />
+                            </div>
+                            <div data-w-tab="Tab 3" class="w-tab-pane">
+                                <img
+                                    width="967"
+                                    sizes="(max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 1279px) 47vw, 599.15625px"
+                                    alt=""
+                                    src="images/dashboard-20outline.png"
+                                    srcset="
+                                        images/dashboard-20outline-p-500.png   500w,
+                                        images/dashboard-20outline-p-800.png   800w,
+                                        images/dashboard-20outline-p-1080.png 1080w,
+                                        images/dashboard-20outline-p-1600.png 1600w,
+                                        images/dashboard-20outline-p-2000.png 2000w,
+                                        images/dashboard-20outline.png        2036w
+                                    "
+                                    class="dashboard-image" />
+                            </div>
+                            <div data-w-tab="Tab 4" class="w-tab-pane">
+                                <img
+                                    width="967"
+                                    sizes="(max-width: 767px) 92vw, (max-width: 991px) 94vw, (max-width: 1279px) 47vw, 599.15625px"
+                                    alt=""
+                                    src="images/dashboard-20outline.png"
+                                    srcset="
+                                        images/dashboard-20outline-p-500.png   500w,
+                                        images/dashboard-20outline-p-800.png   800w,
+                                        images/dashboard-20outline-p-1080.png 1080w,
+                                        images/dashboard-20outline-p-1600.png 1600w,
+                                        images/dashboard-20outline-p-2000.png 2000w,
+                                        images/dashboard-20outline.png        2036w
+                                    "
+                                    class="dashboard-image" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section small overflow-none">
+                <div class="container center-align w-container">
+                    <p class="paragraph x-large">
+                        200,000+ growing startups use Peachy for all things notes
+                    </p>
+                    <div class="logos-row-wrapper">
+                        <div class="logos-row-gradient-right"></div>
+                        <div class="logos-row-gradient-left"></div>
+                        <div
+                            data-w-id="05a116bb-d3df-bb75-c22b-9bda50d53c81"
+                            style="
+                                -webkit-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0)
+                                    rotateY(0) rotateZ(0) skew(0, 0);
+                                -moz-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0)
+                                    rotateY(0) rotateZ(0) skew(0, 0);
+                                -ms-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0)
+                                    rotateY(0) rotateZ(0) skew(0, 0);
+                                transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0)
+                                    rotateY(0) rotateZ(0) skew(0, 0);
+                            "
+                            class="logos-row-block">
+                            <div class="customer-logos-row">
+                                <div class="customer-logo-container">
+                                    <img
+                                        src="images/650b1180815c14a2cd40f632_emerald-20black-20logo.svg"
+                                        width="117"
+                                        alt=""
+                                        class="customer-logo-image" />
+                                </div>
+                                <div class="customer-logo-container">
+                                    <img
+                                        src="images/650b1180815c14a2cd40f630_etro-20black-20logo.svg"
+                                        width="102"
+                                        alt=""
+                                        class="customer-logo-image" />
+                                </div>
+                                <div class="customer-logo-container">
+                                    <img
+                                        src="images/650b1180815c14a2cd40f633_focusfox-20black-20logo.svg"
+                                        width="124"
+                                        alt=""
+                                        class="customer-logo-image" />
+                                </div>
+                                <div class="customer-logo-container">
+                                    <img
+                                        src="images/650b1180815c14a2cd40f635_nowintech-20black-20logo.svg"
+                                        width="159"
+                                        alt=""
+                                        class="customer-logo-image" />
+                                </div>
+                                <div class="customer-logo-container larger">
+                                    <img
+                                        src="images/650b1180815c14a2cd40f631_optimer-20black-20logo.svg"
+                                        width="148"
+                                        alt=""
+                                        class="customer-logo-image" />
+                                </div>
+                                <div class="customer-logo-container">
+                                    <img
+                                        src="images/650b1180815c14a2cd40f634_carded-20black-20logo.svg"
+                                        width="117"
+                                        alt=""
+                                        class="customer-logo-image" />
+                                </div>
+                            </div>
+                            <div class="customer-logos-row">
+                                <div class="customer-logo-container">
+                                    <img
+                                        src="images/650b1180815c14a2cd40f632_emerald-20black-20logo.svg"
+                                        width="117"
+                                        alt=""
+                                        class="customer-logo-image" />
+                                </div>
+                                <div class="customer-logo-container">
+                                    <img
+                                        src="images/650b1180815c14a2cd40f630_etro-20black-20logo.svg"
+                                        width="102"
+                                        alt=""
+                                        class="customer-logo-image" />
+                                </div>
+                                <div class="customer-logo-container">
+                                    <img
+                                        src="images/650b1180815c14a2cd40f633_focusfox-20black-20logo.svg"
+                                        width="124"
+                                        alt=""
+                                        class="customer-logo-image" />
+                                </div>
+                                <div class="customer-logo-container">
+                                    <img
+                                        src="images/650b1180815c14a2cd40f635_nowintech-20black-20logo.svg"
+                                        width="159"
+                                        alt=""
+                                        class="customer-logo-image" />
+                                </div>
+                                <div class="customer-logo-container larger">
+                                    <img
+                                        src="images/650b1180815c14a2cd40f631_optimer-20black-20logo.svg"
+                                        width="148"
+                                        alt=""
+                                        class="customer-logo-image" />
+                                </div>
+                                <div class="customer-logo-container">
+                                    <img
+                                        src="images/650b1180815c14a2cd40f634_carded-20black-20logo.svg"
+                                        width="117"
+                                        alt=""
+                                        class="customer-logo-image" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section large">
+                <div class="container w-container">
+                    <div class="w-layout-grid _1-2-grid">
+                        <div
+                            id="w-node-bb7677d7-5fdb-1c49-2536-6d14bea6fba7-cd40f625"
+                            class="text-box _300px">
+                            <h2 class="heading h2">Everything wrapped into one.<em></em></h2>
+                        </div>
+                        <div class="_3-grid">
+                            <div class="text-box">
+                                <img src="images/sparkle.svg" alt="" class="icon" />
+                                <h2 class="heading h4">All on one place</h2>
+                                <p>
+                                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                    laboris nisi ut aliquip ex ea commodo consequat.
+                                </p>
+                            </div>
+                            <div class="text-box">
+                                <img src="images/magnet.svg" alt="" class="icon" />
+                                <h3 class="heading h4">Get daily alerts</h3>
+                                <p class="paragraph">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod tempor incididunt ut labore.
+                                </p>
+                            </div>
+                            <div class="text-box">
+                                <img src="images/books.svg" alt="" class="icon" />
+                                <h3 class="heading h4">Safe and secure</h3>
+                                <p>
+                                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                    laboris nisi ut aliquip ex ea commodo consequat.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section large light-orange">
+                <div class="container w-container">
+                    <div class="text-box center-align">
+                        <h2 class="heading h2">More features up our sleeve.</h2>
+                        <div class="spacer _32"></div>
+                    </div>
+                    <div class="_2-grid">
+                        <div class="feature-large-card">
+                            <div class="card-tag">Doc verification</div>
+                            <div class="text-box _350px">
+                                <h2 class="heading h3">Know that everything is up to date</h2>
+                            </div>
+                            <p>
+                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                                nisi ut aliquip ex ea commodo consequat.
+                            </p>
+                            <img
+                                src="images/frame-20145.png"
+                                loading="lazy"
+                                sizes="100vw"
+                                srcset="
+                                    images/frame-20145-p-500.png   500w,
+                                    images/frame-20145-p-800.png   800w,
+                                    images/frame-20145-p-1080.png 1080w,
+                                    images/frame-20145.png        1354w
+                                "
+                                alt=""
+                                class="cropped-desktop-screenshot" />
+                        </div>
+                        <div class="feature-large-card">
+                            <div class="card-tag">Automated worksflows</div>
+                            <div class="text-box _350px">
+                                <h2 class="heading h3">Get into the flow of things</h2>
+                            </div>
+                            <p>
+                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                                nisi ut aliquip ex ea commodo consequat.
+                            </p>
+                            <img
+                                src="images/graphics-20and-20charts_flatline.svg"
+                                loading="lazy"
+                                width="454"
+                                alt=""
+                                class="card-illustration" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section large orange">
+                <div class="container w-container">
+                    <div class="w-layout-grid feature-grid">
+                        <img
+                            src="images/23105_fast_working.svg"
+                            data-ix="fade-in-on-scroll"
+                            width="397"
+                            alt=""
+                            class="center-image" />
+                        <div class="text-box _500px">
+                            <h2 class="heading h2">Get into a superspeed writing flow.</h2>
+                            <div class="text-box _450px">
+                                <p class="paragraph medium">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                </p>
+                            </div>
+                            <div class="light-tick-list w-richtext">
+                                <ul role="list">
+                                    <li>Understand your options</li>
+                                    <li>No lock-ins</li>
+                                    <li>You own the shares</li>
+                                </ul>
+                            </div>
+                            <div class="spacer _24"></div>
+                            <a href="@Url.Action("Register", "Home")" class="button light w-button">Get started</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section large">
+                <div class="container w-container">
+                    <div>
+                        <div class="text-box">
+                            <div class="ai-tag">AI Powered</div>
+                            <h2 class="heading h2">Your notes, automated.</h2>
+                            <p class="paragraph medium">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </p>
+                        </div>
+                        <div class="spacer _48"></div>
+                        <div class="w-layout-grid _4-grid">
+                            <div class="text-box">
+                                <img src="images/shieldcheckered.svg" alt="" class="icon" />
+                                <h3 class="heading h4">Learn your options.</h3>
+                                <p class="paragraph">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod tempor.
+                                </p>
+                            </div>
+                            <div class="text-box">
+                                <img src="images/plugs.svg" alt="" class="icon" />
+                                <h3 class="heading h4">Stay informed.</h3>
+                                <p class="paragraph">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod tempor incididunt ut labore et doloretro.
+                                </p>
+                            </div>
+                            <div class="text-box">
+                                <img src="images/coins.svg" alt="" class="icon" />
+                                <h3 class="heading h4">Automate it all.</h3>
+                                <p class="paragraph">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod tempor ipsum.
+                                </p>
+                            </div>
+                            <div class="text-box">
+                                <img src="images/magnet.svg" alt="" class="icon" />
+                                <h3 class="heading h4">Stay informed.</h3>
+                                <p class="paragraph">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod incididunt ut labore et consectetur.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="container">
+                    <div class="section-top">
+                        <h2 class="heading h2">Read all things note-taking.</h2>
+                        <a href="/blog" class="button light-orange w-button">See all posts</a>
+                    </div>
+                    <div class="spacer _32"></div>
+                    <div class="w-dyn-list">
+                        <div role="list" class="_3-grid w-dyn-items">
+                            <div role="listitem" class="w-dyn-item">
+                                <a
+                                    href="/post/automating-daily-tasks-from-your-phone"
+                                    class="card w-inline-block"
+                                    ><img
+                                        alt="Automating Daily Tasks from Your Phone"
+                                        src="images/frame-201.svg"
+                                        class="card-thumbnail" />
+                                    <div class="card-text-box">
+                                        <div class="blog-tag">Improvements</div>
+                                        <h2 class="heading h4">
+                                            Automating Daily Tasks from Your Phone
+                                        </h2>
+                                        <p class="paragraph small">
+                                            Dicta nihil ratione corrupti. Aut dolorem dolores omnis
+                                            laboriosam ratione sequi. Provident ad sed velit. Est ea
+                                            ab.
+                                        </p>
+                                        <p class="paragraph small">Sep 26, 2023</p>
+                                    </div></a
+                                >
+                            </div>
+                            <div role="listitem" class="w-dyn-item">
+                                <a
+                                    href="/post/can-you-automate-group-learning"
+                                    class="card w-inline-block"
+                                    ><img
+                                        alt="Can You Automate Group Learning?"
+                                        src="images/frame-202.svg"
+                                        class="card-thumbnail" />
+                                    <div class="card-text-box">
+                                        <div class="blog-tag">Tips &amp; Tricks</div>
+                                        <h2 class="heading h4">Can You Automate Group Learning?</h2>
+                                        <p class="paragraph small">
+                                            Dicta nihil ratione corrupti. Aut dolorem dolores omnis
+                                            laboriosam ratione sequi. Provident ad sed velit. Est ea
+                                            ab.
+                                        </p>
+                                        <p class="paragraph small">Sep 26, 2023</p>
+                                    </div></a
+                                >
+                            </div>
+                            <div role="listitem" class="w-dyn-item">
+                                <a href="/post/our-3-000-000-b-round" class="card w-inline-block"
+                                    ><img
+                                        alt="Our $3,000,000 B Round Investors"
+                                        src="images/frame-205.svg"
+                                        class="card-thumbnail" />
+                                    <div class="card-text-box">
+                                        <div class="blog-tag">News</div>
+                                        <h2 class="heading h4">Our $3,000,000 B Round Investors</h2>
+                                        <p class="paragraph small">
+                                            Eos ipsum et est quis neque cum. Quis autem est eligendi
+                                            amet animi eaque. Itaque minus illo delectus vel vitae
+                                            dolores minus.
+                                        </p>
+                                        <p class="paragraph small">Sep 26, 2023</p>
+                                    </div></a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section small">
+                <div class="container w-container">
+                    <div class="cta-box">
+                        <div class="cta-text-box">
+                            <h2
+                                href="@Url.Action("Register", "Home")" id="w-node-df25bafc-bbda-a924-0cad-0deb1912000c-19120008"
+                                class="heading h2">
+                                Get started <br />with Peachy
+                            </h2>
+                            <p class="paragraph medium">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                eiusmod tempor incididunt.
+                            </p>
+                            <div class="spacer _16"></div>
+                            <a href="@Url.Action("Register", "Home")" class="button white w-button">Get started</a>
+                            <div
+                                id="w-node-accda97e-abab-b1f7-2fa6-390537acd3c4-19120008"
+                                class="cta-tick-text-row">
+                                <p class="small-tick-text">Free 30-day trial</p>
+                                <p class="small-tick-text">No credit-card required</p>
+                            </div>
+                        </div>
+                        <img
+                            src="images/23111_report_analysis_flatline.svg"
+                            loading="lazy"
+                            width="474"
+                            alt=""
+                            class="cta-illustration" />
+                    </div>
+                </div>
+            </div>
+        </div>
