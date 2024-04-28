@@ -2,6 +2,7 @@ using first_exam.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -34,41 +35,42 @@ namespace first_exam
         {
             services.AddControllersWithViews();
 
-            Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-            .Enrich.FromLogContext()
-            .WriteTo.Console()
-            .WriteTo.File(new RenderedCompactJsonFormatter(), "logs/log.txt", rollingInterval: RollingInterval.Day)
-            .CreateLogger();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<CustomExceptionFilter>();
+
+            });
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<AddCustomHeaderResourceFilter>();
+            }).AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
 
             services.AddLogging(loggingBuilder =>
             {
                 loggingBuilder.AddSerilog();
             });
 
-            services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                var culturies = new[]
+                var supportCulture = new[]
                 {
-                    new CultureInfo("ru-RU"),
-                    new CultureInfo("kk-KZ"),
-                    new CultureInfo("en-US"),
-                };
-                options.DefaultRequestCulture = new RequestCulture("ru-RU", "ru-RU");
+                        new CultureInfo("kk-KZ"),
+                        new CultureInfo("ru-RU"),
+                        new CultureInfo("en-US")
+                    };
 
-                options.SupportedCultures = culturies;
-                options.SupportedUICultures = culturies;
+                options.DefaultRequestCulture = new RequestCulture("kk-KZ", "kk-KZ");
+                options.SupportedCultures = supportCulture;
+                options.SupportedUICultures = supportCulture;
             });
 
-            services.AddLocalization(options =>
-            {
-                options.ResourcesPath = "Resources";
-            });
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.Seq("http://localhost:5341/").CreateLogger();
+                .WriteTo.Seq("http://localhost:5341/")
+                .WriteTo.File("Logs/logs.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
 
             services.AddSingleton<Serilog.ILogger>(Log.Logger);
 
@@ -81,8 +83,9 @@ namespace first_exam
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(10);
                 options.Cookie.HttpOnly = true;
-                options.Cookie.Name = "HotelAtrSession";
+                options.Cookie.Name = "PeachySession";
             });
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -103,18 +106,24 @@ namespace first_exam
             }
             app.UseStaticFiles();
 
-            app.UseHsts();
-
-            app.UseHttpsRedirection();
-
             app.UseSession();
 
             app.UseRouting();
 
-            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization(locOptions!.Value);
+            app.Map("/hc", appMap =>
+            {
+                appMap.Run(async context =>
+                {
+                    await context.Response.WriteAsync("Hello from middleware");
+                });
 
-            app.UseAuthentication();
+            });
+
+            var locOptions = app.ApplicationServices
+                .GetService<IOptions<RequestLocalizationOptions>>();
+
+            app.UseRequestLocalization(locOptions.Value);
+
             app.UseAuthorization();
 
             app.UseSerilogRequestLogging();

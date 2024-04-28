@@ -61,9 +61,27 @@
     @{ 
         Html.RenderPartial("_Footer");
     }
+
+
         <script src="~/js/jquery.js" type="text/javascript"></script>
         <script src="~/js/webflow-script.js" type="text/javascript"></script>
+    @section script
+        {
+                <script>
+                    function SetCulture(selectValue) {
+                        var culture = "/?culture=" + selectValue;
 
-    @RenderSection("script", false)
+                        document
+                            .getElementById("cultureForm")
+                            .action = culture;
+
+                        document
+                            .getElementById("cultureForm")
+                            .submit();
+                    }
+                </script>
+    }
+        @RenderSection("script", false)
+    
     </body>
 </html>

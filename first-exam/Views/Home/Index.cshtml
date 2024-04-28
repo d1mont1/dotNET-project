@@ -1,17 +1,32 @@
 ﻿@using Microsoft.AspNetCore.Builder
 @using Microsoft.AspNetCore.Localization
-@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Options
-@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization
 
-
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContext
 @inject IOptions<RequestLocalizationOptions> locOptions
-@inject IViewLocalizer _lang
 
+@inject IViewLocalizer _localizer
 
 <div class="wrapper">
             <div class="section hero">
+                
+                <h3>@_localizer["hello"]</h3>
+
+                        <form id="cultureForm" 
+                              asp-action="Index">
+                            <select onchange="SetCulture(this.value);">
+                                <option> - Выберете язык - </option>
+
+                @foreach (var item in locOptions.Value.SupportedUICultures)
+                {
+                                <option value="@item.Name">
+
+                        @item.Name | @item.DisplayName
+
+                                </option>
+                }
+                            </select>
+                        </form>
                 <div class="container hero-wrapper w-container">
                     <div class="hero-text-box">
                         <h1 class="heading large-h1">Better note-taking is now here.</h1>
@@ -42,6 +57,7 @@
                         class="hero-illustration" />
                 </div>
             </div>
+    
             <div class="section light-orange">
                 <div class="container w-container">
                     <div class="text-box center-align">
@@ -606,3 +622,22 @@
                 </div>
             </div>
         </div>
+
+        
+@section script
+{
+                    <script>
+                        function SetCulture(selectValue) {
+                            var culture = "/?culture=" + selectValue;
+                                console.log("123");
+
+                            document
+                                .getElementById("cultureForm")
+                                .action = culture;
+
+                            document
+                                .getElementById("cultureForm")
+                                .submit();
+                        }
+                    </script>
+}
