@@ -1,4 +1,6 @@
-﻿<div class="section light-grey">
+﻿@model List<Integration>
+
+<div class="section light-grey">
             <div class="container w-container">
                 <div class="text-box _550px">
                     <h1 class="heading large-h1">We&#x27;re Connected.</h1>
@@ -10,214 +12,32 @@
                 </div>
                 <div class="w-dyn-list">
                     <div role="list" class="_3-grid w-dyn-items">
+                    @foreach (Integration item in Model)
+                    {
+
                         <div role="listitem" class="w-dyn-item">
-                            <a href="" class="integration-card w-inline-block"
-                                ><img
-                                    height="50"
-                                    loading="lazy"
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452b-cd40f689"
-                                    src="~/images/paypal.png"
-                                    alt="PayPal"
-                                    class="integration-logo" />
-                                <div
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452c-cd40f689"
-                                    class="text-box">
-                                    <h2
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452d-cd40f689"
-                                        class="heading h3">
-                                        PayPal
-                                    </h2>
-                                    <p
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452f-cd40f689"
-                                        class="paragraph">
-                                        Temporibus sit consequatur sunt commodi. Aut omnis unde
-                                        molestiae. Nihil saepe eveniet possimus.
-                                    </p>
-                                </div></a
-                            >
-                        </div>
-                        <div role="listitem" class="w-dyn-item">
-                            <a href="" class="integration-card w-inline-block"
-                                ><img
-                                    height="50"
-                                    loading="lazy"
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452b-cd40f689"
-                                    src="~/images/firefox.png"
-                                    alt="Firefox"
-                                    class="integration-logo" />
-                                <div
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452c-cd40f689"
-                                    class="text-box">
-                                    <h2
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452d-cd40f689"
-                                        class="heading h3">
-                                        Firefox
-                                    </h2>
-                                    <p
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452f-cd40f689"
-                                        class="paragraph">
-                                        Dicta nihil ratione corrupti. Aut dolorem dolores omnis
-                                        laboriosam ratione sequi.
-                                    </p>
-                                </div></a
-                            >
-                        </div>
-                        <div role="listitem" class="w-dyn-item">
-                            <a href="" class="integration-card w-inline-block"
-                                ><img
-                                    height="50"
-                                    loading="lazy"
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452b-cd40f689"
-                                    src="~/images/slack.png"
-                                    alt="Slack"
-                                    class="integration-logo" />
-                                <div
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452c-cd40f689"
-                                    class="text-box">
-                                    <h2
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452d-cd40f689"
-                                        class="heading h3">
-                                        Slack
-                                    </h2>
-                                    <p
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452f-cd40f689"
-                                        class="paragraph">
-                                        Dicta nihil ratione corrupti. Aut dolorem dolores omnis
-                                        laboriosam ratione sequi.
-                                    </p>
-                                </div></a
-                            >
-                        </div>
-                        <div role="listitem" class="w-dyn-item">
-                            <a href="" class="integration-card w-inline-block"
-                                ><img
-                                    height="50"
-                                    loading="lazy"
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452b-cd40f689"
-                                    src="~/images/trello.png"
-                                    alt="Trello"
-                                    class="integration-logo" />
-                                <div
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452c-cd40f689"
-                                    class="text-box">
-                                    <h2
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452d-cd40f689"
-                                        class="heading h3">
-                                        Trello
-                                    </h2>
-                                    <p
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452f-cd40f689"
-                                        class="paragraph">
-                                        Repellat voluptas temporibus. Expedita quae vero qui
-                                        consequatur aut. Temporibus sit consequatur sunt commodi.
-                                    </p>
-                                </div></a
-                            >
-                        </div>
-                        <div role="listitem" class="w-dyn-item">
-                            <a href="" class="integration-card w-inline-block"
-                                ><img
-                                    height="50"
-                                    loading="lazy"
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452b-cd40f689"
-                                    src="~/images/github.png"
-                                    alt="Github"
-                                    class="integration-logo" />
-                                <div
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452c-cd40f689"
-                                    class="text-box">
-                                    <h2
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452d-cd40f689"
-                                        class="heading h3">
-                                        Github
-                                    </h2>
-                                    <p
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452f-cd40f689"
-                                        class="paragraph">
-                                        Temporibus sit consequatur sunt commodi. Aut omnis unde
-                                        molestiae. Nihil saepe eveniet possimus.
-                                    </p>
-                                </div></a
-                            >
-                        </div>
-                        <div role="listitem" class="w-dyn-item">
-                            <a href="" class="integration-card w-inline-block"
-                                ><img
-                                    height="50"
-                                    loading="lazy"
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452b-cd40f689"
-                                    src="~/images/asana.png"
-                                    alt="Asana"
-                                    class="integration-logo" />
-                                <div
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452c-cd40f689"
-                                    class="text-box">
-                                    <h2
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452d-cd40f689"
-                                        class="heading h3">
-                                        Asana
-                                    </h2>
-                                    <p
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452f-cd40f689"
-                                        class="paragraph">
-                                        Dicta nihil ratione corrupti. Aut dolorem dolores omnis
-                                        laboriosam ratione sequi.
-                                    </p>
-                                </div></a
-                            >
-                        </div>
-                        <div role="listitem" class="w-dyn-item">
-                            <a href="" class="integration-card w-inline-block"
-                                ><img
-                                    height="50"
-                                    loading="lazy"
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452b-cd40f689"
-                                    src="~/images/623d0c1661a2184a689f8af0_zapier.svg"
-                                    alt="Zapier"
-                                    class="integration-logo" />
-                                <div
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452c-cd40f689"
-                                    class="text-box">
-                                    <h2
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452d-cd40f689"
-                                        class="heading h3">
-                                        Zapier
-                                    </h2>
-                                    <p
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452f-cd40f689"
-                                        class="paragraph">
-                                        Rerum quaerat recusandae minus omnis quisquam recusandae qui
-                                        quidem. Repellat voluptas temporibus.
-                                    </p>
-                                </div></a
-                            >
-                        </div>
-                        <div role="listitem" class="w-dyn-item">
-                            <a href="" class="integration-card w-inline-block"
-                                ><img
-                                    height="50"
-                                    loading="lazy"
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452b-cd40f689"
-                                    src="~/images/623d0c1661a218c6fd9f8af1_xero.svg"
-                                    alt="Xero"
-                                    class="integration-logo" />
-                                <div
-                                    id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452c-cd40f689"
-                                    class="text-box">
-                                    <h2
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452d-cd40f689"
-                                        class="heading h3">
-                                        Xero
-                                    </h2>
-                                    <p
-                                        id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452f-cd40f689"
-                                        class="paragraph">
-                                        Dicta nihil ratione corrupti. Aut dolorem dolores omnis
-                                        laboriosam ratione sequi.
-                                    </p>
-                                </div></a
-                            >
-                        </div>
+                        <a href="" class="integration-card w-inline-block">
+                            <img height="50"
+                                 loading="lazy"
+                                 id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452b-cd40f689"
+                                 src="@item.PathImage"
+                                 alt="@item.Name"
+                                 class="integration-logo" />
+                            <div id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452c-cd40f689"
+                                 class="text-box">
+                                <h2 id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452d-cd40f689"
+                                    class="heading h3">
+                                    @item.Name
+                                </h2>
+                                <p id="w-node-_06b2daff-86db-8a2c-3e43-56a7be42452f-cd40f689"
+                                   class="paragraph">
+                                    @item.Description
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                }   
+
                     </div>
                 </div>
             </div>

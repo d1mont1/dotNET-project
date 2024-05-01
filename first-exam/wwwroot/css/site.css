@@ -1,6 +1,29 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+.select-form {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px; /* Измените ширину по вашему желанию */
+    background-color: #fff;
+}
 
+    /* Стилизация опций в выпадающем списке */
+    .select-form option {
+        padding: 8px;
+    }
+
+        /* Стилизация при наведении курсора на опцию */
+        .select-form option:hover {
+            background-color: #f0f0f0;
+        }
+
+    /* Стилизация выпадающего списка */
+    .select-form:focus {
+        outline: none; /* Убираем обводку при фокусе */
+        box-shadow: 0 0 0 2px #007bff; /* Добавляем тень при фокусе */
+    }
 a.navbar-brand {
   white-space: normal;
   text-align: center;

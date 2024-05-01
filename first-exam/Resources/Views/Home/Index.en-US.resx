@@ -117,7 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="hello" xml:space="preserve">
-    <value>HELLO MOTHERFUCKER</value>
+  <data name="Better note-taking is now here." xml:space="preserve">
+    <value>Better note-taking is now here.</value>
+  </data>
+  <data name="Peachy uses AI to bring your notes and writing to the next level for faster and smarter content." xml:space="preserve">
+    <value>Peachy uses AI to bring your notes and writing to the next level for faster and smarter content.</value>
   </data>
 </root>

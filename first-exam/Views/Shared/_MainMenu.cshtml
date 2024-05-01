@@ -1,4 +1,11 @@
-﻿        <div
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@inject IOptions<RequestLocalizationOptions> locOptions
+@inject IViewLocalizer localizer
+
+
+<div
             data-collapse="small"
             data-animation="default"
             data-duration="400"
@@ -16,15 +23,31 @@
                     <div class="nav-menu">
 
 
-                        <a href="@Url.Action("Features","Home")" class="nav-link w-nav-link">Features</a
-                        ><a href="@Url.Action("Pricing","Home")" class="nav-link w-nav-link">Pricing</a
-                        ><a href="@Url.Action("Integrations","Home")" class="nav-link w-nav-link">Integrations</a>
+                        <a href="@Url.Action("Features","Home")" class="nav-link w-nav-link">@localizer["Features"]</a><a href="@Url.Action("Pricing","Home")" class="nav-link w-nav-link">@localizer["Pricing"]</a>
+                <a href="@Url.Action("Integrations","Home")" class="nav-link w-nav-link">@localizer["Integrations"]</a>
                         
 
                     </div>
                     <div class="nav-cta-button-container">
-                        <a href="@Url.Action("Login","Home")" class="nav-link secondary w-nav-link">Sign in</a
-                        ><a href="@Url.Action("Register", "Home")" class="nav-link primary w-nav-link">Get started</a>
+
+                <form id="cultureForm"
+                      asp-action="Index">
+                    <select onchange="SetCulture(this.value);" class="w-select">
+                        <option> - @localizer["Choose language"] - </option>
+
+                        @foreach (var item in locOptions.Value.SupportedUICultures)
+                        {
+                            <option value="@item.Name">
+
+                                @item.Name | @item.DisplayName
+
+                            </option>
+                        }
+                    </select>
+                </form>
+
+                <a href="@Url.Action("Login","Home")" class="nav-link secondary w-nav-link">@localizer["Sign in"]</a>
+                <a href="@Url.Action("Register", "Home")" class="nav-link primary w-nav-link">@localizer["Get started"]</a>
                     </div>
                 </nav>
                 <div class="menu-button w-nav-button">

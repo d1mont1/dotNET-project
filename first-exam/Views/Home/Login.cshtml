@@ -1,56 +1,27 @@
-﻿@{
+﻿@model RegisterViewModel
+
+@{
     Layout = "_LoginRegisterLayout";
 }
 
 
 <div class="center-card">
-                <div class="text-box">
-                    <h1 class="heading h3">Sign In</h1>
-                    <p class="paragraph medium">Welcome back, it&#x27;s good to see you.</p>
-                </div>
-                <div class="spacer _16"></div>
-                <div class="form-wrapper w-form">
-                    <form
-                        action="@Url.Action("Login", "Home")"
-                        id="wf-form-Sign-In-Form"
-                        name="wf-form-Sign-In-Form"
-                        data-name="Sign In Form"
-                        method="get"
-                        class="form"
-                        data-wf-page-id="650b1180815c14a2cd40f693"
-                        data-wf-element-id="e589e84a-0ba8-c850-6ac1-a4c50ec4c3c8">
-                        <input
-                            class="text-input w-input"
-                            maxlength="256"
-                            name="Email"
-                            data-name="Email"
-                            placeholder="hello@gmail.com"
-                            type="email"
-                            id="Email" /><input
-                            class="text-input no-margin w-input"
-                            maxlength="256"
-                            name="Password"
-                            data-name="Password"
-                            placeholder="********"
-                            type="password"
-                            id="field"
-                            required="" />
-                        <div class="spacer _24"></div>
-                        <input
-                            type="submit"
-                            data-wait="Please wait..."
-                            class="button no-margin w-button"
-                            value="Sign Up" />
-                    </form>
-                    <div class="form-success w-form-done">
-                        <div>Thank you! Check your email for confirmation.</div>
-                    </div>
-                    <div class="form-error w-form-fail">
-                        <div>Oops! Something went wrong while submitting the form.</div>
-                    </div>
-                </div>
-                <div class="spacer _16"></div>
-                <p class="paragraph small no-margin">
-                    Forgot your password? <a href="/reset-password">Reset it here.</a>
-                </p>
-            </div>
+    <div class="text-box">
+        <h1 class="heading h3">Get Started</h1>
+        <p class="paragraph medium">
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+        </p>
+    </div>
+    <div class="spacer _16"></div>
+    <form id="registrationForm">
+        <input type="email" asp-for="Email" placeholder="Enter your email" required>
+        <input type="password" asp-for="Password" placeholder="Enter your password" required>
+        <button type="submit">Sign In</button>
+    </form>
+    <div class="spacer _16"></div>
+    <p class="paragraph small no-margin">
+        By clicking the button above, you agree to our
+        <a href="/terms-conditions" target="_blank">Terms &amp; Conditions</a> and
+        <a href="/privacy-policy" target="_blank">Privacy Policy</a>.
+    </p>
+</div>

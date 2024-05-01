@@ -1,15 +1,20 @@
+using first_exam.Data;
 using first_exam.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
@@ -17,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace first_exam
@@ -33,6 +39,8 @@ namespace first_exam
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ApiEndpoint>(Configuration.GetSection("ApiEndpoint"));
+
             services.AddControllersWithViews();
 
             services.AddControllers(options =>
@@ -51,21 +59,26 @@ namespace first_exam
                 loggingBuilder.AddSerilog();
             });
 
+            services.AddDbContext<PeachyContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                var supportCulture = new[]
+                var culturies = new[]
                 {
-                        new CultureInfo("kk-KZ"),
-                        new CultureInfo("ru-RU"),
-                        new CultureInfo("en-US")
-                    };
-
-                options.DefaultRequestCulture = new RequestCulture("kk-KZ", "kk-KZ");
-                options.SupportedCultures = supportCulture;
-                options.SupportedUICultures = supportCulture;
+                    new CultureInfo("ru-RU"),
+                    new CultureInfo("kk-KZ"),
+                    new CultureInfo("en-US"),
+                };
+                options.DefaultRequestCulture = new RequestCulture("en-US", "en-US");
+                options.SupportedCultures = culturies;
+                options.SupportedUICultures = culturies;
             });
 
-            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "Resources";
+            });
 
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Seq("http://localhost:5341/")
@@ -79,6 +92,7 @@ namespace first_exam
             services.AddHttpContextAccessor();
 
             services.AddDistributedMemoryCache();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(10);
@@ -86,11 +100,25 @@ namespace first_exam
                 options.Cookie.Name = "PeachySession";
             });
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    options.LoginPath = "/Home/Login";
-                });
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                };
+            });
+
+            services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -119,11 +147,10 @@ namespace first_exam
 
             });
 
-            var locOptions = app.ApplicationServices
-                .GetService<IOptions<RequestLocalizationOptions>>();
-
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(locOptions.Value);
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSerilogRequestLogging();

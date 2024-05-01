@@ -1,39 +1,17 @@
 ﻿@using Microsoft.AspNetCore.Builder
-@using Microsoft.AspNetCore.Localization
-@using Microsoft.Extensions.Options
 @using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
 
-@inject IOptions<RequestLocalizationOptions> locOptions
-
-@inject IViewLocalizer _localizer
+@inject IViewLocalizer localizer
 
 <div class="wrapper">
             <div class="section hero">
-                
-                <h3>@_localizer["hello"]</h3>
-
-                        <form id="cultureForm" 
-                              asp-action="Index">
-                            <select onchange="SetCulture(this.value);">
-                                <option> - Выберете язык - </option>
-
-                @foreach (var item in locOptions.Value.SupportedUICultures)
-                {
-                                <option value="@item.Name">
-
-                        @item.Name | @item.DisplayName
-
-                                </option>
-                }
-                            </select>
-                        </form>
                 <div class="container hero-wrapper w-container">
                     <div class="hero-text-box">
-                        <h1 class="heading large-h1">Better note-taking is now here.</h1>
+                <h1 class="heading large-h1">@localizer["Better note-taking is now here."]</h1>
                         <div class="text-box _500px center-align">
                             <p class="paragraph large">
-                                Peachy uses AI to bring your notes and writing to the next level for
-                                faster and smarter content.
+                        @localizer["Peachy uses AI to bring your notes and writing to the next level for faster and smarter content."]
                             </p>
                         </div>
                         <div class="spacer _16"></div>
