@@ -2,7 +2,7 @@
 
 namespace first_exam.Models
 {
-    public class RegisterViewModel
+    public class LoginViewModel
     {
         [Required]
         [EmailAddress]

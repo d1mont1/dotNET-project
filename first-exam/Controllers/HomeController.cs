@@ -33,10 +33,11 @@ namespace first_exam.Controllers
         private IConfiguration _config;
         private IOptions<ApiEndpoint> _settings;
         private PeachyContext _db;
+        private readonly HttpClient _httpClient;
 
         public HomeController(ILogger<HomeController> logger, IStringLocalizer<HomeController> localizer,
              IConfiguration config,
-             IOptions<ApiEndpoint> settings, IHttpContextAccessor context, PeachyContext db)
+             IOptions<ApiEndpoint> settings, IHttpContextAccessor context, PeachyContext db, HttpClient httpClient)
         {
             _logger = logger;
             _localizer = localizer;
@@ -44,6 +45,7 @@ namespace first_exam.Controllers
             _settings = settings;
             _context = context;
             _db = db;
+            _httpClient = httpClient;
         }
 
         [TypeFilter(typeof(CustomExceptionFilter), Order = 2)]
@@ -82,81 +84,86 @@ namespace first_exam.Controllers
             return "";
         }
 
-        public async Task<IActionResult> Login(RegisterViewModel model)
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var formData = new
+                var response = await _httpClient.PostAsJsonAsync("https://localhost:44383/login", new
                 {
                     email = model.Email,
                     password = model.Password
-                };
+                });
 
-                using (var httpClient = new HttpClient())
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await httpClient.PostAsJsonAsync("https://localhost:44383/login", formData);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var tokenResponse = await response.Content.ReadFromJsonAsync<TokenResponse>();
+                    var tokenResponse = await response.Content.ReadFromJsonAsync<TokenResponse>();
 
-                        // Сохраняем токен в куки с префиксом Bearer
-                        Response.Cookies.Append("Authorization", $"Bearer {tokenResponse.AccessToken}", new CookieOptions
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, model.Email),
+                        new Claim("AccessToken", tokenResponse.AccessToken)
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity),
+                        new AuthenticationProperties
                         {
-                            HttpOnly = true,
-                            SameSite = SameSiteMode.Strict,
-                            Expires = DateTimeOffset.UtcNow.AddSeconds(tokenResponse.ExpiresIn)
+                            IsPersistent = true,
+                            ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(tokenResponse.ExpiresIn)
                         });
 
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Logging in failed. Please try again.");
-                    }
+                    return RedirectToAction("Index", "Home");
                 }
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
 
             return View(model);
         }
 
-
-        public IActionResult Logout()
+        [HttpGet]
+        public IActionResult Register()
         {
-            HttpContext.SignOutAsync();
-            return RedirectToAction("Index");
+            return View();
         }
 
-        
+        [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                // Отправить запрос на бэкэнд для регистрации пользователя, используя данные из модели
-                // model.Email и model.Password
-                // Например:
-                var formData = new
+                var response = await _httpClient.PostAsJsonAsync("https://localhost:44383/register", new
                 {
                     email = model.Email,
                     password = model.Password
-                };
+                });
 
-                using (var httpClient = new HttpClient())
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await httpClient.PostAsJsonAsync("https://localhost:44383/register", formData);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        // Обработать успешный ответ от сервера, например, перенаправление на другую страницу
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        // Обработать ошибку, например, показать сообщение пользователю
-                        ModelState.AddModelError(string.Empty, "Registration failed. Please try again.");
-                    }
+                    return RedirectToAction("Login");
                 }
+
+                ModelState.AddModelError(string.Empty, "Registration failed. Please try again.");
             }
-            // Если модель невалидна, вернуть представление с ошибками
+
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login");
         }
 
         [Authorize]

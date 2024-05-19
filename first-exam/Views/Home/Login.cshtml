@@ -1,27 +1,29 @@
-﻿@model RegisterViewModel
+﻿@model LoginViewModel
 
 @{
-    Layout = "_LoginRegisterLayout";
+    ViewData["Title"] = "Login";
 }
 
+@{
+    Layout = "_SecondLayout";
+}
 
-<div class="center-card">
-    <div class="text-box">
-        <h1 class="heading h3">Get Started</h1>
-        <p class="paragraph medium">
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco.
-        </p>
+<h2>Login</h2>
+
+<form asp-action="Login" method="post">
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
-    <div class="spacer _16"></div>
-    <form id="login" asp-action="Login" asp-controller="Home">
-        <input type="email" asp-for="Email" placeholder="Enter your email" required>
-        <input type="password" asp-for="Password" placeholder="Enter your password" required>
-        <button type="submit">Sign In</button>
-    </form>
-    <div class="spacer _16"></div>
-    <p class="paragraph small no-margin">
-        By clicking the button above, you agree to our
-        <a href="/terms-conditions" target="_blank">Terms &amp; Conditions</a> and
-        <a href="/privacy-policy" target="_blank">Privacy Policy</a>.
-    </p>
-</div>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+}

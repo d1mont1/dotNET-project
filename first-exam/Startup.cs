@@ -1,3 +1,4 @@
+using first_exam.Controllers;
 using first_exam.Data;
 using first_exam.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -100,6 +101,14 @@ namespace first_exam
                 options.Cookie.Name = "PeachySession";
             });
 
+            services.AddHttpClient<HomeController>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Home/Login";
+                });
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -131,12 +140,19 @@ namespace first_exam
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
+
+            app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
-            app.UseSession();
-
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseSession();
 
             app.Map("/hc", appMap =>
             {
@@ -149,9 +165,6 @@ namespace first_exam
 
             var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(locOptions.Value);
-
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseSerilogRequestLogging();
 
