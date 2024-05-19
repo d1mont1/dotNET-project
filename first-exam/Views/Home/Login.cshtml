@@ -13,7 +13,7 @@
         </p>
     </div>
     <div class="spacer _16"></div>
-    <form id="registrationForm">
+    <form id="login" asp-action="Login" asp-controller="Home">
         <input type="email" asp-for="Email" placeholder="Enter your email" required>
         <input type="password" asp-for="Password" placeholder="Enter your password" required>
         <button type="submit">Sign In</button>
