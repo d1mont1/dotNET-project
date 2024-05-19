@@ -26,4 +26,14 @@
 
 @section Scripts {
         <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var authToken = '@ViewBag.AuthToken';
+            if (authToken) {
+                sessionStorage.setItem('AuthToken', authToken);
+
+                window.location.href = '@Url.Action("Index", "Home")';
+            }
+        });
+    </script>
 }

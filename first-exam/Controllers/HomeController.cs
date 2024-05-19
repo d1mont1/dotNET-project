@@ -101,10 +101,40 @@ namespace first_exam.Controllers
                 try
                 {
                     var token = await _apiClient.LoginAsync(model.Email, model.Password);
-                    HttpContext.Session.SetString("AuthToken", token);
-                    _apiClient.SetAuthorizationHeader(token);
 
-                    return RedirectToAction("Index", "Home");
+                    if (token != null)
+                    {
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Name, model.Email),
+                            new Claim("AuthToken", token)
+                        };
+
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                        var authProperties = new AuthenticationProperties
+                        {
+                            IsPersistent = true,
+                            ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1)
+                        };
+
+                        await HttpContext.SignInAsync(
+                            CookieAuthenticationDefaults.AuthenticationScheme,
+                            new ClaimsPrincipal(claimsIdentity),
+                            authProperties);
+
+                        HttpContext.Session.SetString("AuthToken", token);
+                        Response.Cookies.Append("AuthToken", token, new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure=true,
+                            SameSite = SameSiteMode.Strict,
+                            Expires = DateTime.UtcNow.AddHours(1)
+                        });
+                        ViewBag.AuthToken = token;
+                    }
+                        return View(model);
+
                 }
                 catch (HttpRequestException ex)
                 {
@@ -114,6 +144,7 @@ namespace first_exam.Controllers
 
             return View(model);
         }
+
 
         [HttpGet]
         public IActionResult Register()
