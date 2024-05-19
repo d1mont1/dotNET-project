@@ -20,6 +20,7 @@ namespace first_exam.Api.Data
         }
 
         public virtual DbSet<Integration> Integrations { get; set; }
+        public DbSet<User> Users {  get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

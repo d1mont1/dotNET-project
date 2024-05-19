@@ -2,6 +2,7 @@
 using first_exam.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -34,10 +35,11 @@ namespace first_exam.Controllers
         private IOptions<ApiEndpoint> _settings;
         private PeachyContext _db;
         private readonly HttpClient _httpClient;
+        private readonly ApiClient _apiClient;
 
         public HomeController(ILogger<HomeController> logger, IStringLocalizer<HomeController> localizer,
              IConfiguration config,
-             IOptions<ApiEndpoint> settings, IHttpContextAccessor context, PeachyContext db, HttpClient httpClient)
+             IOptions<ApiEndpoint> settings, IHttpContextAccessor context, PeachyContext db, HttpClient httpClient, ApiClient apiClient)
         {
             _logger = logger;
             _localizer = localizer;
@@ -46,6 +48,7 @@ namespace first_exam.Controllers
             _context = context;
             _db = db;
             _httpClient = httpClient;
+            _apiClient = apiClient;
         }
 
         [TypeFilter(typeof(CustomExceptionFilter), Order = 2)]
@@ -95,37 +98,18 @@ namespace first_exam.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _httpClient.PostAsJsonAsync("https://localhost:44383/login", new
+                try
                 {
-                    email = model.Email,
-                    password = model.Password
-                });
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var tokenResponse = await response.Content.ReadFromJsonAsync<TokenResponse>();
-
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, model.Email),
-                        new Claim("AccessToken", tokenResponse.AccessToken)
-                    };
-
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity),
-                        new AuthenticationProperties
-                        {
-                            IsPersistent = true,
-                            ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(tokenResponse.ExpiresIn)
-                        });
+                    var token = await _apiClient.LoginAsync(model.Email, model.Password);
+                    HttpContext.Session.SetString("AuthToken", token);
+                    _apiClient.SetAuthorizationHeader(token);
 
                     return RedirectToAction("Index", "Home");
                 }
-
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                catch (HttpRequestException ex)
+                {
+                    ModelState.AddModelError(string.Empty, "Login failed: " + ex.Message);
+                }
             }
 
             return View(model);
@@ -142,27 +126,24 @@ namespace first_exam.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _httpClient.PostAsJsonAsync("https://localhost:44383/register", new
+                try
                 {
-                    email = model.Email,
-                    password = model.Password
-                });
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("Login");
+                    await _apiClient.RegisterAsync(model.Email, model.Password);
+                    return RedirectToAction("Home");
                 }
-
-                ModelState.AddModelError(string.Empty, "Registration failed. Please try again.");
+                catch (HttpRequestException ex)
+                {
+                    ModelState.AddModelError(string.Empty, "Registration failed: " + ex.Message);
+                }
             }
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Logout()
+        public IActionResult Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Remove("AuthToken");
             return RedirectToAction("Login");
         }
 
