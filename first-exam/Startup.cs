@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Nest;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
@@ -46,12 +47,25 @@ namespace first_exam
             services.AddHttpClient<ApiClient>();
             services.AddDistributedMemoryCache();
 
-            
-
             services.AddDbContext<PeachyContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddRazorPages();
+
+            services.AddAuthentication(
+                CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(option =>
+                {
+                    option.LoginPath = "/Home/Login";
+                    option.ExpireTimeSpan = TimeSpan.FromHours(1);
+                    option.Cookie.Name = "AuthToken";
+                }
+                );
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Authenticated", policy => policy.RequireAuthenticatedUser());
+            });
 
             services.AddSession(options =>
             {
@@ -62,14 +76,10 @@ namespace first_exam
 
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<PeachyContext>();
 
-            services.AddAuthentication(
-                CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(option =>
-                {
-                    option.LoginPath = "/Home/Login";
-                    option.ExpireTimeSpan = TimeSpan.FromHours(1);
-                }
-                );
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Home/Login";
+            });
 
             services.AddCors(options =>
             {
@@ -168,6 +178,8 @@ namespace first_exam
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseJwtCookieMiddleware();
 
             app.UseAuthentication();
             app.UseAuthorization();
